@@ -5,3 +5,9 @@ services:
     build:
       context: ../..
       dockerfile: docker/release/Dockerfile
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    ports:
+      - "${HTTP_PORT}"
