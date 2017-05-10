@@ -1,4 +1,6 @@
 FROM ruby:2.4.0-slim
+MAINTAINER Pema Geyleg <pema@casecommons.org>
+
 RUN \
   apt-get update -y && \
   apt-get upgrade -y && \
