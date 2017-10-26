@@ -1,9 +1,9 @@
 # Project variables
 export PROJECT_NAME ?= ruby
-ORG_NAME ?= cwds
+ORG_NAME ?= casecommons
 REPO_NAME ?= ruby
-DOCKER_REGISTRY ?= 429614120872.dkr.ecr.us-west-2.amazonaws.com
-AWS_ACCOUNT_ID ?= 429614120872
+DOCKER_REGISTRY ?= 334274607422.dkr.ecr.us-east-1.amazonaws.com
+AWS_ACCOUNT_ID ?= 334274607422
 DOCKER_LOGIN_EXPRESSION ?= eval $$(aws ecr get-login --registry-ids $(AWS_ACCOUNT_ID))
 
 # Release settings

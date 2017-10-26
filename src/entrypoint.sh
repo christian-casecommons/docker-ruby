@@ -10,7 +10,7 @@ for item in "${kms[@]}"
 do
   key=$(sed 's|KMS_\([^=]*\)=\(.*\)|\1|' <<< $item)
   value=$(sed 's|\([^=]*\)=\(.*\)|\2|' <<< $item)
-  decrypt=$(aws kms decrypt --ciphertext-blob fileb://<(echo "$value" | base64 -d)) 
+  decrypt=$(aws kms decrypt --ciphertext-blob fileb://<(echo "$value" | base64 -d))
   export $key="$(echo $decrypt | jq .Plaintext -r | base64 -d)"
 done
 
