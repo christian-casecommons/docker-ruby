@@ -4,15 +4,19 @@ ORG_NAME ?= cwds
 REPO_NAME ?= ruby
 DOCKER_REGISTRY ?= 429614120872.dkr.ecr.us-west-2.amazonaws.com
 AWS_ACCOUNT_ID ?= 429614120872
-DOCKER_LOGIN_EXPRESSION ?= eval $$(aws ecr get-login --registry-ids $(AWS_ACCOUNT_ID))
+ENV ?= nil
 
 # Release settings
 export HTTP_PORT ?= 3002
 
 # Common settings
+-include .env/$(ENV)
 include Makefile.settings
 
-.PHONY: version release clean tag login logout publish compose all
+.PHONY: assume version release clean tag login logout publish compose all
+
+assume:
+	@ $(if $(AWS_ROLE),$(call assume_role,$(AWS_ROLE)),)
 
 # Prints version
 version:
@@ -20,7 +24,7 @@ version:
 
 # Builds release image and runs acceptance tests
 # Use 'make release :nopull' to disable default pull behaviour
-release:
+release: assume
 	${INFO} "Building images..."
 	@ docker-compose $(RELEASE_ARGS) build $(NOPULL_FLAG)
 	${INFO} "Build complete"
@@ -55,9 +59,8 @@ tag%default:
 	@ make tag latest $(APP_VERSION) $(COMMIT_ID) $(COMMIT_TAG)
 
 # Login to Docker registry
-login:
+login: assume
 	${INFO} "Logging in to Docker registry $$DOCKER_REGISTRY..."
-	@ $(if $(AWS_ROLE),$(call assume_role,$(AWS_ROLE)),)
 	@ $(DOCKER_LOGIN_EXPRESSION)
 	${INFO} "Logged in to Docker registry $$DOCKER_REGISTRY"
 
@@ -68,9 +71,9 @@ logout:
 	${INFO} "Logged out of Docker registry $$DOCKER_REGISTRY"
 
 # Publishes image(s) tagged using make tag commands
-publish:
+publish: assume
 	${INFO} "Publishing release image to $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME)..."
-	@ $(call publish_image,$(RELEASE_ARGS),ruby,$(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME))
+	@ docker push $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME)
 	${INFO} "Publish complete"
 
 # Streams logs
