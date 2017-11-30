@@ -133,3 +133,9 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
 
 See www.gnu.org/licenses/agpl.html
+
+## Release Notes
+
+## Version 1.0.0
+
+**NEW FEATURE** : Added environments for cbp-dev and cbp-acceptance
