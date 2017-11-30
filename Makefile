@@ -4,6 +4,7 @@ ORG_NAME ?= cwds
 REPO_NAME ?= ruby
 DOCKER_REGISTRY ?= 429614120872.dkr.ecr.us-west-2.amazonaws.com
 AWS_ACCOUNT_ID ?= 429614120872
+AWS_ROLE ?= admin
 ENV ?= nil
 
 # Release settings
@@ -16,7 +17,7 @@ include Makefile.settings
 .PHONY: assume version release clean tag login logout publish compose all
 
 assume:
-	@ $(if $(AWS_ROLE),$(call assume_role,$(AWS_ROLE)),)
+	@ $(call assume_role,$(AWS_ROLE))
 
 # Prints version
 version:
@@ -24,7 +25,7 @@ version:
 
 # Builds release image and runs acceptance tests
 # Use 'make release :nopull' to disable default pull behaviour
-release: assume
+release:
 	${INFO} "Building images..."
 	@ docker-compose $(RELEASE_ARGS) build $(NOPULL_FLAG)
 	${INFO} "Build complete"
