@@ -1,5 +1,5 @@
-ORG_NAME=casecommons
 DOCKER_REGISTRY=334274607422.dkr.ecr.us-east-1.amazonaws.com
 AWS_ACCOUNT_ID=334274607422
 export AWS_REGION=us-east-1
 export AWS_DEFAULT_REGION=us-east-1
+export ORG_NAME=casecommons

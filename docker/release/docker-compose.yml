@@ -2,9 +2,11 @@ version: '2'
 
 services:
   ruby:
+    image: ${ORG_NAME}/${PROJECT_NAME}
     build:
       context: ../..
       dockerfile: docker/release/Dockerfile
+
   app:
     build:
       context: .

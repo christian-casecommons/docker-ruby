@@ -51,7 +51,7 @@ clean:
 tag: TAGS ?= $(if $(ARGS),$(ARGS),latest $(APP_VERSION) $(COMMIT_ID) $(COMMIT_TAG))
 tag:
 	${INFO} "Tagging release image with tags $(TAGS)..."
-	@ $(foreach tag,$(TAGS),$(call tag_image,$(RELEASE_ARGS),ruby,$(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME):$(tag));)
+	@ $(foreach tag,$(TAGS),docker tag $(ORG_NAME)/$(REPO_NAME):latest $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME):$(tag);)
 	${INFO} "Tagging complete"
 
 # Tags with default set of tags
