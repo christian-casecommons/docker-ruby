@@ -14,7 +14,10 @@ export HTTP_PORT ?= 3002
 -include .env/$(ENV)
 include Makefile.settings
 
-.PHONY: assume version release clean tag login logout publish compose all
+.PHONY: all orchestrate assume version release clean tag tag%default login logout publish compose all
+all:
+	# do nothing
+orchestrate: assume login release tag-default publish clean login
 
 assume:
 	@ $(call assume_role,$(AWS_ROLE))
